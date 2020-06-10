@@ -65,9 +65,12 @@ for l_num in landline_numbers:
         codes.append(l_num.split(")")[0][1:])
     
 
-print("The numbers called by people in Bangalore have codes:",end="\t")
-print(codes)
+print("The numbers called by people in Bangalore have codes:")
+#print(sorted(codes))
+for code in sorted(codes):
+    print(code)
 
+    
 """
 
 Part B: What percentage of calls from fixed lines in Bangalore are made
@@ -81,11 +84,17 @@ to other fixed lines in Bangalore."
 The percentage should have 2 decimal digits
 """
 
-fixed_lines_calls = []
-for call in calls:
-    if call[0][0] == "(" and call[1][0] == "(":
-        fixed_lines_calls.append(call)
-percentage = round(len(fixed_lines_calls) / len(calls) * 100 ,2)
+fixed_lines_to_bangalore = []
+fixed_lines_from_bangalore = []
 
+for call in calls:
+    if call[0][:5] == "(080)":
+        fixed_lines_to_bangalore.append(call[0][0])
+        #print(call[0][:5])
+        
+    if call[1][:5] == "(080)":
+        fixed_lines_from_bangalore.append(call[1][0])
+        #print(call[1][:5])
+percentage = round(len(fixed_lines_from_bangalore) / len(fixed_lines_to_bangalore) * 100 ,2)
 print(percentage,"percent of calls from fixed lines in Bangalore are calls to other fixed lines in Bangalore.")
 

@@ -24,11 +24,11 @@ Print a message:
 <list of numbers>
 The list of numbers should be print out one per line in lexicographic order with no duplicates.
 """
-telemarketers = []
+telemarketers = set()
 #makes outgoing calls
 for call in calls:
     if call[0] not in telemarketers:
-        telemarketers.append(call[0])
+        telemarketers.add(call[0])
 #never send or receive text
 for text in texts:
     if text[0] in telemarketers:
@@ -40,4 +40,6 @@ for call in calls:
     if call[1] in telemarketers:
         telemarketers.remove(call[1])
 print("These numbers could be telemarketers:")
-print(telemarketers)
+for tele in sorted(telemarketers):
+    print(tele)
+    

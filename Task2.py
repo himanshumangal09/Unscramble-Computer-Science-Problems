@@ -20,21 +20,23 @@ Print a message:
 "<telephone number> spent the longest time, <total time> seconds, on the phone during 
 September 2016.".
 """
-
-def longestcalls(calls):
-    long_call = calls[0][3]
-    incoming_num = calls[0][0]
-    for call in calls:
-        if int(call[3])>int(long_call):
-            long_call = call[3]
-            incoming_num = call[0]
-    return incoming_num,long_call
-#print("Last record of calls,",calls[-1][0],"calls", calls[-1][1],"at time ",calls[-1][2],"lasting", calls[-1][3],"seconds")
-telephone_num = 0
-duration = 0
-telephone_num,duration = longestcalls(calls)
-print(telephone_num," spent the longest time,",duration,"seconds, on the phone during September 2016.")
+dictionary = {}
+maxDuration =0
+for i in range(len(calls)):
+    if calls[i][0] in dictionary.keys():
+        dictionary[calls[i][0]] += int(calls[i][-1])
+    else:
+        dictionary[calls[i][0]] = int(calls[i][-1])
+    if calls[i][1] in dictionary.keys():
+        dictionary[calls[i][1]] += int(calls[i][-1])
+    else:
+        dictionary[calls[i][1]] = int(calls[i][-1])
 
 
+for number in dictionary:
+    if maxDuration < dictionary[number]:
+        maxDuration = dictionary[number]
+        maxDurationNumber = number
 
+print("%s spent the longest time, %d seconds, on the phone during September 2016." %(maxDurationNumber, maxDuration))
 

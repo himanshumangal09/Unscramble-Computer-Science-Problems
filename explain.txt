@@ -54,20 +54,25 @@ so the above two codes have :
 
 --------------------------------------------------------------------------------------------------------
 Task 2
+dictionary = {}
+maxDuration =0
+for i in range(len(calls)):
+    if calls[i][0] in dictionary.keys():
+        dictionary[calls[i][0]] += int(calls[i][-1])
+    else:
+        dictionary[calls[i][0]] = int(calls[i][-1])
+    if calls[i][1] in dictionary.keys():
+        dictionary[calls[i][1]] += int(calls[i][-1])
+    else:
+        dictionary[calls[i][1]] = int(calls[i][-1])
 
-def longestcalls(calls):
-    long_call = calls[0][3]
-    incoming_num = calls[0][0]
-    for call in calls:
-        if int(call[3])>int(long_call):
-            long_call = call[3]
-            incoming_num = call[0]
-    return incoming_num,long_call
-#print("Last record of calls,",calls[-1][0],"calls", calls[-1][1],"at time ",calls[-1][2],"lasting", calls[-1][3],"seconds")
-telephone_num = 0
-duration = 0
-telephone_num,duration = longestcalls(calls)
-print(telephone_num," spent the longest time,",duration,"seconds, on the phone during September 2016.")
+
+for number in dictionary:
+    if maxDuration < dictionary[number]:
+        maxDuration = dictionary[number]
+        maxDurationNumber = number
+
+print("%s spent the longest time, %d seconds, on the phone during September 2016." %(maxDurationNumber, maxDuration))
 
 
 
@@ -78,7 +83,6 @@ so the above two codes have :
  
 ------------------------------------------------------------------------------------------
 TASK 3A
-
 unique_numbers = []
 for call  in calls:
     if call[0] not in unique_numbers:
@@ -111,10 +115,12 @@ for l_num in landline_numbers:
         codes.append(l_num.split(")")[0][1:])
     
 
-print("The numbers called by people in Bangalore have codes:",end="\t")
-print(codes)
+print("The numbers called by people in Bangalore have codes:")
+#print(sorted(codes))
+for code in sorted(codes):
+    print(code)
 
-so the above codes have :
+    so the above codes have :
     Best case space Complexity:O(n)
      Best case time Complexity:O(n)
 
@@ -130,13 +136,20 @@ so the above codes have :
 TASK 3B
 
 
-fixed_lines_calls = []
-for call in calls:
-    if call[0][0] == "(" and call[1][0] == "(":
-        fixed_lines_calls.append(call)
-percentage = round(len(fixed_lines_calls) / len(calls) * 100 ,2)
+fixed_lines_to_bangalore = []
+fixed_lines_from_bangalore = []
 
+for call in calls:
+    if call[0][:5] == "(080)":
+        fixed_lines_to_bangalore.append(call[0][0])
+        #print(call[0][:5])
+        
+    if call[1][:5] == "(080)":
+        fixed_lines_from_bangalore.append(call[1][0])
+        #print(call[1][:5])
+percentage = round(len(fixed_lines_from_bangalore) / len(fixed_lines_to_bangalore) * 100 ,2)
 print(percentage,"percent of calls from fixed lines in Bangalore are calls to other fixed lines in Bangalore.")
+
 
 
 so the above code has :
@@ -147,11 +160,11 @@ so the above code has :
 ---------------------------------------------------------------------------------------------------------
 TASK 4
 
-telemarketers = []
+telemarketers = set()
 #makes outgoing calls
 for call in calls:
     if call[0] not in telemarketers:
-        telemarketers.append(call[0])
+        telemarketers.add(call[0])
 #never send or receive text
 for text in texts:
     if text[0] in telemarketers:
@@ -163,9 +176,9 @@ for call in calls:
     if call[1] in telemarketers:
         telemarketers.remove(call[1])
 print("These numbers could be telemarketers:")
-print(telemarketers)
-
-
+for tele in sorted(telemarketers):
+    print(tele)
+    
 so the above codes have :
     Best case space Complexity:O(n)
      Best case time Complexity:O(n)
